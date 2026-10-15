@@ -5,6 +5,15 @@ set -eu
 input=${1:?需要输入目录}
 output=${2:?需要输出目录}
 
-# TODO：删除下方提示和 exit 77，再填写你的命令。
-printf '%s\n' 'Q1 尚未实现' >&2
-exit 77
+# ---- Q1 实现 ----
+
+# 1) 路径定位（4 分）：location.txt 必须是 handover 目录的「真实绝对路径 + 换行」
+handover="$input/handover"
+mkdir -p "$output"
+realpath -- "$handover" > "$output/location.txt"
+
+# 2) 隐藏文件（3 分）：读出隐藏文件 .robot-id 的原文
+cat -- "$handover/.robot-id" > "$output/robot-id.txt"
+
+# 3) 文本读取（3 分）：逐字复制欢迎文本
+cat -- "$input/notes/welcome.txt" > "$output/welcome.txt"
