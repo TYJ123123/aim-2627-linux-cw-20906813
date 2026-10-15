@@ -5,6 +5,20 @@ set -eu
 input=${1:?需要输入目录}
 output=${2:?需要输出目录}
 
-# TODO：删除下方提示和 exit 77，再填写你的命令。
-printf '%s\n' 'Q2 尚未实现' >&2
-exit 77
+# ---- Q2 实现 ----
+# 注意：本题输入目录为空，hello.sh 与 robot.conf 的内容必须由本脚本内联生成。
+
+ws="$output/sentry_ws"
+
+# 1) 目录结构（4 分）：四个普通子目录（mkdir -p 幂等，重复运行不报错）
+mkdir -p "$ws/scripts" "$ws/config" "$ws/logs" "$ws/tmp"
+
+# 2) 空文件（2 分）：必须是零字节普通文件（用 : > 截断，不能用 mkdir）
+: > "$ws/logs/.keep"
+: > "$ws/tmp/scratch.txt"
+
+# 3) 启动脚本（2 分）：内容必须逐字节等于期望值
+printf '%s\n' '#!/bin/bash' 'echo "Hello, AIM Linux!"' > "$ws/scripts/hello.sh"
+
+# 4) 配置文本（2 分）：三行配置，逐字节匹配
+printf '%s\n' 'robot=sentry' 'mode=training' 'log_level=INFO' > "$ws/config/robot.conf"
